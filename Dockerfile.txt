@@ -1,5 +1,5 @@
 FROM node
-WORKDIR /app
+WORKDIR /cicdp4
 COPY package*.json ./
 RUN npm install
 COPY server.js .
