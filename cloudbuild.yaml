@@ -1,16 +1,16 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/gcp-class-1-427416/runimage', '.']
+  args: ['build', '-t', 'gcr.io/gcp-class-1-427416/runimage:$COMMIT_SHA', '.']
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/gcp-class-1-427416/runimage']
+  args: ['push', 'gcr.io/gcp-class-1-427416/runimage:$COMMIT_SHA']
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
-  args: ['run', 'deploy', 'myfirstrun', '--image', 'gcr.io/gcp-class-1-427416/runimage', '--region', 'europe-west1', '--allow-unauthenticated']
+  args: ['run', 'deploy', 'myfirstrun', '--image', 'gcr.io/gcp-class-1-427416/runimage:$COMMIT_SHA', '--region', 'europe-west1', '--allow-unauthenticated']
 
 images:
-- 'gcr.io/gcp-class-1-427416/runimage'
+- 'gcr.io/gcp-class-1-427416/runimage:$COMMIT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY
