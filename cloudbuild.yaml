@@ -12,14 +12,15 @@ steps:
   - 'build'
   - '-t'
   - 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
-  - '.'
+  - '/docker'
 
 # Step 3: Push Docker image to Google Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'push'
   - 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
-
+  
+# Step 4: Push Docker image to Google Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
   args: ['run', 'deploy', 'myfirstrun', '--image', 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA', '--region', 'europe-west1', '--allow-unauthenticated']
