@@ -12,7 +12,7 @@ steps:
   - 'build'
   - '-t'
   - 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
-  - '/docker'
+  - '.'
 
 # Step 3: Push Docker image to Google Container Registry
 - name: 'gcr.io/cloud-builders/docker'
