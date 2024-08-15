@@ -20,9 +20,6 @@ steps:
   - 'push'
   - 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
 
-images:
-- 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
-
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
   args: ['run', 'deploy', 'myfirstrun', '--image', 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA', '--region', 'europe-west1', '--allow-unauthenticated']
