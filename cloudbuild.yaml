@@ -1,16 +1,34 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/gcp-class-1-427416/runimage:$COMMIT_SHA', '.']
+# Step 1: Checkout the code from GitHub
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - 'git clone https://github.com/vspath800/cicdp4.git'
 
+# Step 2: Build Docker image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/gcp-class-1-427416/runimage:$COMMIT_SHA']
+  args:
+  - 'build'
+  - '-t'
+  - 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
+  - '.'
+
+# Step 3: Push Docker image to Google Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'push'
+  - 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
+
+images:
+- 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
-  args: ['run', 'deploy', 'myfirstrun', '--image', 'gcr.io/gcp-class-1-427416/runimage:$COMMIT_SHA', '--region', 'europe-west1', '--allow-unauthenticated']
+  args: ['run', 'deploy', 'myfirstrun', '--image', 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA', '--region', 'europe-west1', '--allow-unauthenticated']
 
 images:
-- 'gcr.io/gcp-class-1-427416/runimage:$COMMIT_SHA'
+- 'gcr.io/gcp-class-1-427416/cicdp4image:$COMMIT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY
